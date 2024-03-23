@@ -1,0 +1,2 @@
+config file path 
+	./net/hostconfig: hosts,password
