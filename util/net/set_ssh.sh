@@ -1,5 +1,7 @@
 #!/bin/bash
-source ./hostconfig
+cur=`dirname $0`
+
+source $cur/hostconfig
 
 echo "y"  | ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
 for h in $hosts
