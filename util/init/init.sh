@@ -1,6 +1,7 @@
 #!/bin/bash
 cur=`dirname $0`
 #disable firewall, selinux
+source $cur/../common/highlight.sh
 ipname=`ip a | grep "inet" | grep dynamic | awk '{print $2}' | awk -F '/' '{print $1}'`
 
 echo "init $ipname"
@@ -19,11 +20,12 @@ source $cur/../net/hostconfig
 num=1
 for i in $hosts
 do
-	echo "$i \t ceph0$num" >> /etc/hosts
+	echo -e "$i \t ceph0$num" >> /etc/hosts
 	let num=$num+1
 done
 
-name=`cat /etc/hosts | grep $ipname | awk '{print $2}'`
+name=`cat /etc/hosts | grep $ipname |head -1| awk '{print $2}'`
+highlight $name
 hostnamectl set-hostname $name
 
 
