@@ -1,6 +1,6 @@
 #! /bin/bash
 
-speccpu_iso_name=`find .. -name "cpu2017-1.*.iso"|head -1`
+speccpu_iso_name=`find / -name "cpu2017-1.*.iso"|head -1`
 #cc_name=aocc-compiler-3.1.0.tar
 #libs_name=libs-speccpu2017.tar.gz
 #opt_pkg_name=hygon-speccpu2017-aocc3.1.0-20231128.tar.gz
@@ -9,7 +9,7 @@ libs_name=`ls | grep libs`
 opt_pkg_name=`ls | grep speccpu2017 | grep gz`
 
 
-cc_dir_name=${cc_name/.tar.gz/}
+cc_dir_name=${cc_name/.tar/}
 
 [[ -z $speccpu_iso_name ]] && echo "No SPEC CPU 2017 ISO file in current directory or parent directory. Stopped." && exit
 echo "Found $speccpu_iso_name, using it."
@@ -142,7 +142,7 @@ echo "yes" > ~/temp.cpu
 rm -f ~/temp.cpu
 cd -
 
-tar -zxf $cc_name -C /opt
+tar -xf $cc_name -C /opt
 tar -zxf $libs_name -C /opt
 cd /opt/$cc_dir_name
 ./install.sh

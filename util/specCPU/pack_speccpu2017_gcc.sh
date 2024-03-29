@@ -1,6 +1,7 @@
 #!/bin/bash
+datetime=`date +%F | sed 's/-//g'`
 
-package_name=speccpu2017-hygon-gcc10.3-opt-20221128
+package_name=speccpu2017-hygon-gcc10.3-opt-$datetime
 
 speccpu_root=/home/cpu2017
 

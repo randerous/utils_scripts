@@ -1,13 +1,21 @@
 #!/bin/bash
 #READ ME#
 #need install-speccpu2017.sh to exists in same dir as this script#
-opt_package=speccpu2017-hygon-aocc3-opt-20240117
+echo "you need place aocc-compiler.tar in current directory"
+echo 
+echo 
 
-package_name=speccpu2017-hygon-aocc3.1-opt-20240117
+cur=`pwd`
 
-libs_name=libs-20240117
+datetime=`date +%F | sed 's/-//g'`
 
-aocc_name=`ls /opt | grep aocc-compiler`
+opt_package=speccpu2017-hygon-aocc-opt-$datetime
+
+package_name=hygon-speccpu2017-aocc3.1.0-opt-$datetime
+
+libs_name=libs-$datetime
+
+aocc_name=`ls  $cur | grep aocc-compiler | head -1`
 
 libs="extra_libs_32 extra_libs_64 glibc_2_30_64bit glibc-2.33-32bit glibc-2.33-64bit hygonlibm jemalloc setenv_AOCC.sh"
 
@@ -17,7 +25,7 @@ speccpu_dir=$speccpu_root/benchspec/CPU
 
 cases_dir=`ls -l $speccpu_dir | awk -F' ' '{print $9}' | grep -e ^[0-9]..`
 
-cur=`pwd`
+
 
 tmp=${cur}/tmp
 function pack_specdir()
@@ -61,7 +69,8 @@ function pack_lib()
 function pack_aocc()
 {
 	cd /opt
-	tar --use-compress-program=pigz -cpvf ${tmp}/${aocc_name}.tar.gz ${aocc_name}
+	cp $cur/$aocc_name $tmp
+#	tar --use-compress-program=pigz -cpvf ${tmp}/${aocc_name}.tar.gz ${aocc_name}
 	cd ${tmp}
 }
 
@@ -74,9 +83,14 @@ function main()
 	pack_specdir
 	pack_lib
 	pack_aocc
-
+	
+	echo "pack over"
 	cd ${tmp}
-	cp ${cur}/install-speccpu2017.sh ${tmp}
+#	cp ${cur}/install-speccpu2017.sh ${tmp}
+	a=$cur/`dirname $0`/install-speccpu2017.sh
+	pwd
+	ls $a
+	cp $a ${tmp}
 	
 	tar --use-compress-program=pigz -cpvf ${opt_package}.tar.gz .
 	mv ${opt_package}.tar.gz ..
