@@ -22,6 +22,7 @@ cd /sys/block
 for i in `ls /sys/block/ | grep bcache`
 do
 	echo 1 > $i/bcache/writeback_running
+	echo 0 > $i/bcache/writeback_percent
 done
 }
 
