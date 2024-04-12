@@ -7,7 +7,7 @@ cd /sys/block
 for i in `ls /sys/block/ | grep bcache`
 do
 	echo writeback > $i/bcache/cache_mode
-	echo 80 > $i/bcache/writeback_percent
+	echo 40 > $i/bcache/writeback_percent
 	echo 0 > $i/bcache/writeback_running
 	echo 0 > $i/bcache/cache/congested_write_threshold_us
 	echo 0 > $i/bcache/cache/congested_read_threshold_us
@@ -22,7 +22,7 @@ cd /sys/block
 for i in `ls /sys/block/ | grep bcache`
 do
 	echo 1 > $i/bcache/writeback_running
-	echo 0 > $i/bcache/writeback_percent
+	echo 40 > $i/bcache/writeback_percent
 done
 }
 
