@@ -26,5 +26,5 @@ do
 done
 }
 
-#test_all
+test_all
 
