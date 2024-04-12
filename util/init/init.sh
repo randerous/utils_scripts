@@ -16,6 +16,8 @@ sed -i "s/ONBOOT=no/ONBOOT=yes/g" /etc/sysconfig/network-scripts/ifcfg-$ifname
 cat /etc/sysconfig/network-scripts/ifcfg-$ifname
 
 #set hostname
+function set_hostname()
+{
 source $cur/../net/hostconfig
 num=1
 for i in $hosts
@@ -27,7 +29,9 @@ done
 name=`cat /etc/hosts | grep $ipname |head -1| awk '{print $2}'`
 highlight $name
 hostnamectl set-hostname $name
+}
 
+#set_hostname
 
 
 rpm -e $(rpm -qa | grep bclinux-license)

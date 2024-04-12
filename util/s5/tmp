@@ -1,0 +1,6 @@
+hd=default,vdbench=/home/vdbench50406,shell=ssh,user=root
+
+sd=default,threads=2048,openflags=o_direct
+sd=sd1,lun=/dev/sdb1
+wd=wd1,sd=sd*,xfersize=1M,rdpct=70,seekpct=100
+rd=run1,wd=wd1,iorate=max,maxdata=40T,elapsed=600,interval=1,warmup=60
