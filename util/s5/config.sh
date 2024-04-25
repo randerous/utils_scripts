@@ -1,6 +1,7 @@
 #!/bin/bash
 cur=`dirname $0`
-size=7.3T
+read -p "input hdd size: " size
+#size=7.3T
 blks=`lsblk | grep $size | awk '{print $1}'`
 runtime=600
 oldtime=`cat $cur/tmp | grep elapse | awk -F 'elapsed=' '{print $2}' | awk -F ',' '{print $1}'`
