@@ -1,9 +1,10 @@
-ip a | grep 11.11.11 > /dev/null
+ip a | grep 11.11.11 &> /dev/null
 if [[ $? != 0 ]]
 then
 	hosts="10.0.53.87 10.0.53.214"
 else
 	hosts="11.11.11.11 11.11.11.12 11.11.11.13 11.11.11.14"
 fi
+hosts="10.0.21.131 10.0.21.128 10.0.21.61 10.0.21.149"
 #echo $hosts
 password=test@2024

@@ -6,7 +6,7 @@ path=$dev-result
 mkdir -p $path
 cd $path
 
-blktrace -w $2 -d /dev/$dev 
+blktrace -w $2 -d /dev/$dev &>/dev/null 
 
 blkparse -i $dev -d blkparse.out &>/dev/null
 
