@@ -10,8 +10,8 @@ function change_iscsi()
 {
 	local name=$1
 	local val=$2
-	name=`hostname`
-	if [[ $name == node01 ]]
+	hname=`hostname`
+	if [[ $hname == node01 ]]
 	then
 		for i in `seq 1 $num`
 		do
@@ -19,12 +19,12 @@ function change_iscsi()
 		done
 	fi
 
-	if [[ $name == node02 ]]
+	if [[ $hname == node02 ]]
         then
 		end=$[ num * 2 ]
-		num=$[ num + 1 ]
-		echo $end $num
-                for i in `seq $num $end`
+		start_num=$[ num + 1 ]
+		echo $end $start_num
+                for i in `seq $start_num $end`
                 do
                         iscsiadm -m node -T iqn.2023-07.iscsi.test$i:client -p $ip_2 --op update -n $name -v $val
                 done
