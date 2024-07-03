@@ -13,19 +13,38 @@ cd $cpu2017_dir
 cp *.sh result/
 
 
-#change result dir to intrate fprate intspeed fpspeed
-intrate_result_file=`ls result/ | grep intrate.refrate.txt | head -1`
-fprate_result_file=`ls result/ | grep fprate.refrate.txt | head -1`
-intspeed_result_file=`ls result/ | grep intspeed.refspeed.txt | head -1`
-fpspeed_result_file=`ls result/ | grep fpspeed.refspeed.txt | head -1`
-
-cd result
-[[ $intrate_result_file ]] && intrate_res=`cat $intrate_result_file | grep 2017_int_base | awk '{print $3}'`
-[[ $fprate_result_file ]] && fprate_res=`cat $fprate_result_file | grep 2017_fp_base | awk '{print $3}'`
-[[ $intspeed_result_file ]] && intspeed_res=`cat $intspeed_result_file | grep 2017_int_base | awk '{print $3}'`
-[[ $fpspeed_result_file  ]] && fpspeed_res=`cat $fp_speed_result_file | grep 2017_fp_base | awk '{print $3}'`
-cd ..
+function get_res()
+{
+	local bench=$1
+	local type=$2
+	local res_file=`ls result/ | grep txt | grep $bench | head -1`
+	#echo $bench $type $res_file
+	if [[ -f result/$res_file ]] 
+	then
+		grep " RE " result/$res_file &>/dev/null
+		if [[ $? == 0 ]]
+		then
+			res="invaild"
+		else
+			res=`cat result/$res_file |  grep "2017_${type}_base" | awk '{print $3}'`
+		fi
+	else
+		res="invalid"
+	fi
+	echo $res
+	
+}
+intrate_res=$(get_res intrate int)
+fprate_res=$(get_res fprate fp)
+intspeed_res=$(get_res intspeed int)
+fpspeed_res=$(get_res fpspeed fp)
 res_name="$intrate_res $fprate_res $intspeed_res $fpspeed_res"
+
+mem_freq=`dmidecode -t memory | grep "Configured Memory Speed:"  | head -1 | awk '{print $(NF-1)}'`
+mem_rank=`dmidecode -t memory | grep "Rank:"  | head -1 | awk '{print $(NF)}'`R
+res_name="$res_name $mem_rank $mem_freq"
+echo "collect complete : $res_name"
+
 mv result "$res_name"
 
 cd $cur
